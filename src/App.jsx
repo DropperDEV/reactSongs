@@ -53,6 +53,7 @@ function App() {
 
   return (
     <div className="App">
+    <div className="App">
       <header>
         <img src="" alt="logo" />
         <p>
@@ -65,11 +66,29 @@ function App() {
             value={searchedArtist}
             onChange={(e) => setSearchedArtist(e.target.value)}
           />
+          <input
+            type="text"
+            placeholder="Pesquise por um artista"
+            value={searchedArtist}
+            onChange={(e) => setSearchedArtist(e.target.value)}
+          />
         </div>
       </header>
       <main>
         <p>Resultados da busca</p>
+        <p>Resultados da busca</p>
         <ul>
+          {isLoading ? (
+            <p className="text-gray-200">Loading...</p>
+          ) : errorMessage ? (
+            <p className="text-red-500">{errorMessage}</p>
+          ) : artist.length > 0 ? (
+            artist.map((item, index) => (
+              <li key={index}>{item.result.full_title}</li>
+            ))
+          ) : (
+            <p className="text-gray-400">Nenhum resultado encontrado.</p>
+          )}
           {isLoading ? (
             <p className="text-gray-200">Loading...</p>
           ) : errorMessage ? (
