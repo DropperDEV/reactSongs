@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const API_BASE_URL = "https://api.genius.com";
 
-const API_ACESS_TOKEN = "XuoOwjW9fLdnOgq7qVvyTwLBct4wNMr8vApgCw-CS9mhXTWXXb-rGXPM-S0EiTP7";
+const API_ACESS_TOKEN = "";
 
 const API_CONFIG = {
   method: "GET",
