@@ -1,8 +1,7 @@
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebounce } from "react-use";
-
-const API_BASE_URL = "https://api.genius.com";
+import { SongCard } from "./components/SongCard";
 
 const API_ACESS_TOKEN = import.meta.env.VITE_API_ACESS_KEY;
 
@@ -60,53 +59,44 @@ function App() {
   }, [debouncedSearchedArtist]);
 
   return (
-    <div className=" bg-amber-500">
-      <header className="flex flex-row gap-4">
-        <img src="" alt="logo" />
-        <p className="text-amber-500 text-xl">
-          react<span className="text-blue-500">Songs</span>
-        </p>
-        <div className="w-full bg-light-100/5 px-4 py-3 rounded-lg mt-10 max-w-3xl mx-auto">
-          <div className="relative flex items-center">
-            <Search/>
-            <input
-              type="text"
-              placeholder="Pesquise por um artista"
-              value={searchedArtist}
-              onChange={(e) => setSearchedArtist(e.target.value)}
-              className="w-full bg-transparent py-2 sm:pr-10 pl-10 text-base text-gray-200 placeholder-light-200 outline-hidden"
-            />
+    <main>
+      <div className="pattern" />
+      <div className="wrapper">
+        <header className="">
+          <h1 className="">
+            react<span className="">Songs</span>
+          </h1>
+          <div className="search">
+            <div className="">
+              <Search />
+              <input
+                type="text"
+                placeholder="Pesquise por um artista"
+                value={searchedArtist}
+                onChange={(e) => setSearchedArtist(e.target.value)}
+                className=""
+              />
+            </div>
           </div>
-        </div>
-      </header>
-      <main>
-        <p>Resultados da busca</p>
-        <ul>
+        </header>
+        <section className="all-songs">
+          <h2>Resultados da busca</h2>
           {isLoading ? (
             <p className="text-white-200">Loading...</p>
           ) : errorMessage ? (
             <p className="text-red-500">{errorMessage}</p>
           ) : artist.length > 0 ? (
-            artist.map((item) => (
-              <li key={item.result.id}>
-                <img
-                  src={item.result.song_art_image_thumbnail_url}
-                  alt={item.result.title}
-                />
-                <p>{item.result.title}</p>
-                <p>{item.result.primary_artist_names}</p>
-                <p>
-                  {item.result.release_date_with_abbreviated_month_for_display}
-                </p>
-                <p>{item.result.url}</p>
-              </li>
-            ))
+            <ul>
+              {artist.map((item) => (
+                <SongCard item={item} key={item.result.id} />
+              ))}
+            </ul>
           ) : (
             <p className="text-gray-400">Nenhum resultado encontrado.</p>
           )}
-        </ul>
-      </main>
-    </div>
+        </section>
+      </div>
+    </main>
   );
 }
 

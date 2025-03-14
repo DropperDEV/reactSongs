@@ -1,7 +1,152 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
+@import "tailwindcss";
 
-@import 'tailwindcss'
+@theme {
+  --color-gray-100: #9ca4ab;
+  --color-dark-100: #2b2c34;
+  --color-main: #fffffe; 
+  --color-secondary: #d1d1e9;
+  --color-highlight: #6246ea;
+  --font-dm-sans: DM Sans, sans-serif;
+  --breakpoint-xs: 480px;
+}
 
+@layer base {
+  body {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    background: #fffffe;
+    color: #2b2c34;
+  }
 
+  h1 {
+    @apply mx-auto max-w-4xl text-center text-5xl font-bold leading-tight tracking-[-1%] text-dark-100 sm:text-[64px] sm:leading-[76px] mt-5;
+  }
+
+  h2 {
+    @apply text-2xl font-bold text-dark-100 sm:text-3xl mb-5 mt-5;
+  }
+
+  main {
+    @apply min-h-screen relative bg-main;
+  }
+
+  header {
+    @apply  bg-[#d1d1e9] rounded-lg  shadow-md  flex flex-col  p-8 mr-24;
+  }
+}
+
+@layer components {
+
+  .pattern {
+    @apply w-screen h-screen bg-center bg-cover absolute z-0;
+  }
+
+  .wrapper {
+    @apply px-5 py-12 xs:p-10  flex flex-row ;
+  }
+
+  .trending {
+    @apply mt-20;
+    
+    & ul {
+      @apply flex flex-row overflow-y-auto gap-5 -mt-10 w-full hide-scrollbar;
+    }
+    
+    & ul li {
+      @apply min-w-[230px] flex flex-row items-center;
+    }
+    
+    & ul li p {
+      @apply fancy-text mt-[22px] text-nowrap;
+    }
+    
+    & ul li img {
+      @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5;
+    }
+  }
+
+  .search {
+    @apply w-full bg-gray-100 px-3 py-2 rounded-lg mt-7 max-w-3xl mx-auto;
+    
+    & div {
+      @apply relative flex items-center;
+    }
+    
+    & svg {
+      @apply absolute left-2 h-5 w-5;
+    }
+    
+    & input {
+      @apply w-full bg-transparent py-2 sm:pr-10 pl-10 text-base text-dark-100 placeholder-dark-100 outline-hidden;
+    }
+  }
+
+  .all-songs {
+    @apply  w-full h-full ;
+    
+    & ul {
+      @apply  grid grid-cols-2 gap-5 xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
+    }
+  }
+
+  .song-card {
+    @apply bg-highlight p-5 rounded-2xl shadow-inner shadow-[#6246ea]/10   ;
+  
+    & img {
+      @apply rounded-lg h-auto w-full;
+    }
+  
+    & h3 {
+      @apply text-[#fffffe] font-bold text-base line-clamp-1;
+    }
+  
+    & .content {
+      @apply mt-2 flex flex-row items-center flex-wrap gap-2;
+    }
+  
+    & .rating {
+      @apply flex flex-row items-center gap-1;
+    }
+  
+    & .rating img {
+      @apply size-4 object-contain;
+    }
+  
+    & .rating p {
+      @apply font-bold text-base text-[#fffffe];
+    }
+  
+    & .content span {
+      @apply text-sm text-gray-100;
+    }
+  
+    & .content .lang {
+      @apply capitalize text-gray-100 font-medium text-base;
+    }
+  
+    & .content .year {
+      @apply text-gray-100 font-medium text-base;
+    }
+  }
+}  
+@utility text-gradient {
+  @apply bg-gradient-to-r from-purple-700 to-lime-300 bg-clip-text text-transparent;
+}
+
+@utility fancy-text {
+  -webkit-text-stroke: 5px rgba(206, 206, 251, 0.5);
+  font-size: 190px;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+@utility hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
