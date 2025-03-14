@@ -2,16 +2,10 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebounce } from "react-use";
 import { SongCard } from "./components/SongCard";
+import { handleAuthCallback } from "./auth";
 
-const API_ACESS_TOKEN = import.meta.env.VITE_API_ACESS_KEY;
 
-const API_CONFIG = {
-  method: "GET",
-  headers: {
-    Accept: "application/json",
-    Authorization: `Bearer ${API_ACESS_TOKEN}`,
-  },
-};
+
 
 function App() {
   const [artist, setArtist] = useState([]);
@@ -20,33 +14,53 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedSearchedArtist, setDebouncedSearchedArtist] = useState("");
 
+  useEffect(() => {
+    handleAuthCallback(); 
+  }, []);
+
   useDebounce(() => setDebouncedSearchedArtist(searchedArtist), 500, [
     searchedArtist,
   ]);
+
   async function fetchSearchedArtist(query) {
     if (!query) return;
+
+    const accessToken = localStorage.getItem("genius_token");
+
+    if (!accessToken) {
+      window.location.href = "https://genius-auth-backend.onrender.com/auth/genius";
+      return;
+    }
 
     setIsLoading(true);
     setErrorMessage("");
     setArtist([]);
 
     try {
-      const url = `https://cors-anywhere.herokuapp.com/https://api.genius.com/search?q=${encodeURIComponent(
-        query
-      )}`;
+      const url = `https://api.genius.com/search?q=${encodeURIComponent(query)}`;
 
-      const response = await fetch(url, API_CONFIG);
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`, // ✅ Autenticação com o token salvo
+        },
+      });
 
       if (!response.ok) {
-        setErrorMessage("Something went wrong fetching the artist");
+        if (response.status === 401) {
+          localStorage.removeItem("genius_token"); 
+          window.location.href = "https://genius-auth-backend.onrender.com/auth/genius"; 
+        }
+        setErrorMessage("Algo deu errado ao buscar o artista.");
         return;
       }
 
       const data = await response.json();
       setArtist(data.response.hits || []);
     } catch (error) {
-      setErrorMessage("Failed to fetch data. Please try again.");
-      console.error("Error fetching data:", error);
+      setErrorMessage("Falha ao buscar os dados. Tente novamente.");
+      console.error("Erro ao buscar dados:", error);
     } finally {
       setIsLoading(false);
     }
@@ -62,19 +76,18 @@ function App() {
     <main>
       <div className="pattern" />
       <div className="wrapper">
-        <header className="">
-          <h1 className="">
-            react<span className="">Songs</span>
+        <header>
+          <h1>
+            react<span>Songs</span>
           </h1>
           <div className="search">
-            <div className="">
+            <div>
               <Search />
               <input
                 type="text"
                 placeholder="Pesquise por um artista"
                 value={searchedArtist}
                 onChange={(e) => setSearchedArtist(e.target.value)}
-                className=""
               />
             </div>
           </div>
@@ -82,7 +95,7 @@ function App() {
         <section className="all-songs">
           <h2>Resultados da busca</h2>
           {isLoading ? (
-            <p className="text-white-200">Loading...</p>
+            <p>Carregando...</p>
           ) : errorMessage ? (
             <p className="text-red-500">{errorMessage}</p>
           ) : artist.length > 0 ? (
