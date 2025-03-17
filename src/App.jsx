@@ -2,16 +2,17 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebounce } from "react-use";
 import { SongCard } from "./components/SongCard";
+import Login from "./components/Login";
 
-const API_ACESS_TOKEN = import.meta.env.VITE_API_ACESS_KEY;
+//const API_ACESS_TOKEN = import.meta.env.VITE_API_ACESS_KEY;
 
-const API_CONFIG = {
+/*const API_CONFIG = {
   method: "GET",
   headers: {
     Accept: "application/json",
     Authorization: `Bearer ${API_ACESS_TOKEN}`,
   },
-};
+};*/
 
 function App() {
   const [artist, setArtist] = useState([]);
@@ -32,11 +33,15 @@ function App() {
     setArtist([]);
 
     try {
-      const url = `https://cors-anywhere.herokuapp.com/https://api.genius.com/search?q=${encodeURIComponent(
+      /*const url = `https://cors-anywhere.herokuapp.com/https://api.genius.com/search?q=${encodeURIComponent(
         query
       )}`;
 
-      const response = await fetch(url, API_CONFIG);
+      const response = await fetch(url, API_CONFIG);*/
+      const response = await fetch(`https://genius-auth.onrender.com/api/search?q=${encodeURIComponent(query)}`, {
+        method: "GET",
+        credentials: "include", // 🔥 Envia o cookie de autenticação
+      });
 
       const data = await response.json();
       setArtist(data.response.hits || []);
@@ -69,6 +74,7 @@ function App() {
             onChange={(e) => setSearchedArtist(e.target.value)}
           />
         </div>
+        <Login/>
       </aside>
       <section className="all-songs">
         <h2>Resultados da busca</h2>

@@ -50,7 +50,7 @@
     @apply flex flex-col h-full w-full justify-center gap-4;
 
     & h2 {
-      @apply font-bold text-4xl;
+      @apply font-bold text-3xl xs:text-4xl;
     }
 
     & ul {
