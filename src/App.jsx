@@ -23,6 +23,7 @@ function App() {
   useDebounce(() => setDebouncedSearchedArtist(searchedArtist), 500, [
     searchedArtist,
   ]);
+
   async function fetchSearchedArtist(query) {
     if (!query) return;
 
@@ -37,16 +38,11 @@ function App() {
 
       const response = await fetch(url, API_CONFIG);
 
-      if (!response.ok) {
-        setErrorMessage("Something went wrong fetching the artist");
-        return;
-      }
-
       const data = await response.json();
       setArtist(data.response.hits || []);
     } catch (error) {
-      setErrorMessage("Failed to fetch data. Please try again.");
-      console.error("Error fetching data:", error);
+      setErrorMessage("Falha ao buscar os dados. Tente novamente.");
+      console.error("Erro ao buscar dados:", error);
     } finally {
       setIsLoading(false);
     }

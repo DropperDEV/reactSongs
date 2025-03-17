@@ -24,12 +24,12 @@
     box-sizing: border-box;
 
     main {
-      @apply flex lg:flex-row  flex-col gap-8 bg-blue-50 h-full w-full min-h-screen justify-center p-10 ;
+      @apply flex lg:flex-row  flex-col gap-8 bg-blue-50 h-full w-full min-h-screen justify-center p-10;
     }
     aside {
-      @apply bg-gray-700  min-h-full flex flex-col  gap-4  rounded-lg p-7 ;
+      @apply bg-gray-700  min-h-full flex flex-col  gap-4  rounded-lg p-7;
       & h1 {
-        @apply font-extrabold text-6xl text-center;
+        @apply font-extrabold  text-4xl xs:text-5xl sm:text-6xl text-center;
       }
       & span {
         @apply text-blue-700;
@@ -40,10 +40,10 @@
 
 @layer components {
   .search {
-    @apply flex flex-row  p-3 justify-center items-center bg-gray-200 rounded-xl;
+    @apply flex flex-row p-1 xs:p-2 sm:p-3 justify-center items-center bg-gray-200 rounded-xl;
 
     & input {
-      @apply w-full px-3 py-1 outline-none;
+      @apply w-full px-1 xs:px-2 sm:px-3 py-1 outline-none;
     }
   }
   .all-songs {
@@ -59,10 +59,10 @@
   }
 
   .song-card {
-    @apply  rounded-xl flex-row flex  gap-4  w-full max-w-sm pr-2;
+    @apply rounded-xl flex-row flex  gap-4  w-full max-w-sm pr-2;
 
     & img {
-      @apply w-28 h-28  lg:w-36 lg:h-36 object-cover aspect-square ;
+      @apply w-28 h-28  lg:w-36 lg:h-36 object-cover aspect-square;
     }
     .content {
       @apply min-h-[60px] max-h-[150px] flex flex-col justify-evenly;
@@ -70,8 +70,8 @@
     & h3 {
       @apply text-xl xl:text-xl;
     }
-    & p{
-      @apply text-base
+    & p {
+      @apply text-base;
     }
   }
 }
