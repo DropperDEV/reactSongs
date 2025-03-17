@@ -60,42 +60,36 @@ function App() {
 
   return (
     <main>
-      <div className="pattern" />
-      <div className="wrapper">
-        <header className="">
-          <h1 className="">
-            react<span className="">Songs</span>
-          </h1>
-          <div className="search">
-            <div className="">
-              <Search />
-              <input
-                type="text"
-                placeholder="Pesquise por um artista"
-                value={searchedArtist}
-                onChange={(e) => setSearchedArtist(e.target.value)}
-                className=""
-              />
-            </div>
-          </div>
-        </header>
-        <section className="all-songs">
-          <h2>Resultados da busca</h2>
-          {isLoading ? (
-            <p className="text-white-200">Loading...</p>
-          ) : errorMessage ? (
-            <p className="text-red-500">{errorMessage}</p>
-          ) : artist.length > 0 ? (
-            <ul>
-              {artist.map((item) => (
-                <SongCard item={item} key={item.result.id} />
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-400">Nenhum resultado encontrado.</p>
-          )}
-        </section>
-      </div>
+      <aside>
+        <h1>
+          <span>react</span>Songs
+        </h1>
+        <div className="search">
+          <Search />
+          <input
+            type="text"
+            placeholder="Pesquise por um artista"
+            value={searchedArtist}
+            onChange={(e) => setSearchedArtist(e.target.value)}
+          />
+        </div>
+      </aside>
+      <section className="all-songs">
+        <h2>Resultados da busca</h2>
+        {isLoading ? (
+          <p className="text-white-200">Carregando...</p>
+        ) : errorMessage ? (
+          <p className="text-red-500">{errorMessage}</p>
+        ) : artist.length > 0 ? (
+          <ul>
+            {artist.map((item) => (
+              <SongCard item={item} key={item.result.id} />
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-400">Nenhum resultado encontrado.</p>
+        )}
+      </section>
     </main>
   );
 }
