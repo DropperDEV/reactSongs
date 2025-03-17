@@ -6,7 +6,7 @@
 @theme {
   --color-gray-100: #9ca4ab;
   --color-dark-100: #2b2c34;
-  --color-main: #fffffe; 
+  --color-main: #fffffe;
   --color-secondary: #d1d1e9;
   --color-highlight: #6246ea;
   --font-dm-sans: DM Sans, sans-serif;
@@ -19,133 +19,67 @@
     font-optical-sizing: auto;
     background: #fffffe;
     color: #2b2c34;
-  }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 
-  h1 {
-    @apply mx-auto max-w-4xl text-center text-5xl font-bold leading-tight tracking-[-1%] text-dark-100 sm:text-[64px] sm:leading-[76px] mt-5;
-  }
-
-  h2 {
-    @apply text-2xl font-bold text-dark-100 sm:text-3xl mb-5 mt-5;
-  }
-
-  main {
-    @apply min-h-screen relative bg-main;
-  }
-
-  header {
-    @apply  bg-[#d1d1e9] rounded-lg  shadow-md  flex flex-col  p-8 mr-24;
+    main {
+      @apply flex lg:flex-row  flex-col gap-8 bg-blue-50 h-full w-full min-h-screen justify-center p-10 ;
+    }
+    aside {
+      @apply bg-gray-700  min-h-full flex flex-col  gap-4  rounded-lg p-7 ;
+      & h1 {
+        @apply font-extrabold text-6xl text-center;
+      }
+      & span {
+        @apply text-blue-700;
+      }
+    }
   }
 }
 
 @layer components {
-
-  .pattern {
-    @apply w-screen h-screen bg-center bg-cover absolute z-0;
-  }
-
-  .wrapper {
-    @apply px-5 py-12 xs:p-10  flex flex-row ;
-  }
-
-  .trending {
-    @apply mt-20;
-    
-    & ul {
-      @apply flex flex-row overflow-y-auto gap-5 -mt-10 w-full hide-scrollbar;
-    }
-    
-    & ul li {
-      @apply min-w-[230px] flex flex-row items-center;
-    }
-    
-    & ul li p {
-      @apply fancy-text mt-[22px] text-nowrap;
-    }
-    
-    & ul li img {
-      @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5;
-    }
-  }
-
   .search {
-    @apply w-full bg-gray-100 px-3 py-2 rounded-lg mt-7 max-w-3xl mx-auto;
-    
-    & div {
-      @apply relative flex items-center;
-    }
-    
-    & svg {
-      @apply absolute left-2 h-5 w-5;
-    }
-    
+    @apply flex flex-row  p-3 justify-center items-center bg-gray-200 rounded-xl;
+
     & input {
-      @apply w-full bg-transparent py-2 sm:pr-10 pl-10 text-base text-dark-100 placeholder-dark-100 outline-hidden;
+      @apply w-full px-3 py-1 outline-none;
     }
   }
-
   .all-songs {
-    @apply  w-full h-full ;
-    
+    @apply flex flex-col h-full w-full justify-center gap-4;
+
+    & h2 {
+      @apply font-bold text-4xl;
+    }
+
     & ul {
-      @apply  grid grid-cols-2 gap-5 xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
+      @apply grid sm:grid-cols-2  lg:grid-cols-1 xl:grid-cols-2   2xl:grid-cols-3 gap-3;
     }
   }
 
   .song-card {
-    @apply bg-highlight p-5 rounded-2xl shadow-inner shadow-[#6246ea]/10   ;
-  
+    @apply  rounded-xl flex-row flex  gap-4  w-full max-w-sm pr-2;
+
     & img {
-      @apply rounded-lg h-auto w-full;
+      @apply w-28 h-28  lg:w-36 lg:h-36 object-cover aspect-square ;
     }
-  
+    .content {
+      @apply min-h-[60px] max-h-[150px] flex flex-col justify-evenly;
+    }
     & h3 {
-      @apply text-[#fffffe] font-bold text-base line-clamp-1;
+      @apply text-xl xl:text-xl;
     }
-  
-    & .content {
-      @apply mt-2 flex flex-row items-center flex-wrap gap-2;
-    }
-  
-    & .rating {
-      @apply flex flex-row items-center gap-1;
-    }
-  
-    & .rating img {
-      @apply size-4 object-contain;
-    }
-  
-    & .rating p {
-      @apply font-bold text-base text-[#fffffe];
-    }
-  
-    & .content span {
-      @apply text-sm text-gray-100;
-    }
-  
-    & .content .lang {
-      @apply capitalize text-gray-100 font-medium text-base;
-    }
-  
-    & .content .year {
-      @apply text-gray-100 font-medium text-base;
+    & p{
+      @apply text-base
     }
   }
-}  
-@utility text-gradient {
-  @apply bg-gradient-to-r from-purple-700 to-lime-300 bg-clip-text text-transparent;
-}
-
-@utility fancy-text {
-  -webkit-text-stroke: 5px rgba(206, 206, 251, 0.5);
-  font-size: 190px;
-  font-family: "Bebas Neue", sans-serif;
 }
 
 @utility hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
