@@ -44,6 +44,7 @@ function App() {
       });
 
       const data = await response.json();
+      console.log(data.response)
       setArtist(data.response.hits || []);
     } catch (error) {
       setErrorMessage("Falha ao buscar os dados. Tente novamente.");
