@@ -40,7 +40,7 @@ function App() {
       const response = await fetch(url, API_CONFIG);*/
       const response = await fetch(`https://genius-auth.onrender.com/search?q=${encodeURIComponent(query)}`, {
         method: "GET",
-        credentials: "include", // 🔥 Envia o cookie de autenticação
+        credentials: "include", 
       });
 
       const data = await response.json();
