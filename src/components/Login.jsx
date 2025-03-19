@@ -1,37 +1,52 @@
 import { useEffect, useState } from "react";
 
-const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
-const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
-const AUTH_URL = `https://api.genius.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+function Login({ setIsAuthenticated, isAuthenticated }) {
+  const [account, setAccount] = useState(null); // Altere o estado de 'account' para null inicialmente
 
-function Login() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  // Checa se o usuário está autenticado e pega dados da conta apenas uma vez
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
+    fetch("http://localhost:5000/check-auth", {
+      credentials: "include", // Envia o cookie de autenticação
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setIsAuthenticated(data.isAuthenticated);
+      })
+      .catch((err) => console.error("Erro ao verificar autenticação:", err));
 
-    if (code) {
-      fetch("https://genius-auth.onrender.com/get-token", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
-        credentials: "include", // Importante para enviar cookies
+    if (isAuthenticated) {
+      // Apenas busca dados da conta se o usuário estiver autenticado
+      fetch("http://localhost:5000/account-info", {
+        credentials: "include",
       })
         .then((res) => res.json())
-        .then(() => setIsAuthenticated(true))
-        .catch((err) => console.error(err));
+        .then((data) => setAccount(data.response.user))
+        .catch((err) => console.error("Erro ao pegar os dados da conta:", err));
     }
-  }, []);
+  }, [isAuthenticated, setIsAuthenticated]); // Atualize o efeito para não criar loop infinito
+
+  // Lida com a ação de logout
+  function onClickHandler() {
+    fetch("http://localhost:5000/logout", {
+      credentials: "include", // Envia o cookie de autenticação
+    })
+      .then(() => {
+        setIsAuthenticated(false); // Atualiza o estado após logout
+        window.location.reload()
+
+      })
+      .catch((err) => console.error("Erro ao fazer logout:", err));
+  }
 
   return (
-    <div>
+    <div className="sessionArea">
+      {account && <img src={account.avatar.medium.url} alt="Account image" />}
+      <p>{account && account.name }</p>
       {!isAuthenticated ? (
-        <a href={AUTH_URL}>Login com Genius</a>
+        // Se não autenticado, exibe o link de login
+        <a href="http://localhost:5000/login">Entrar</a>
       ) : (
-        <button onClick={() => fetch("https://genius-auth.onrender.com/logout", { credentials: "include" })}>
-          Sair
-        </button>
+        <button onClick={onClickHandler}>Sair</button>
       )}
     </div>
   );
